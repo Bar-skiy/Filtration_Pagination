@@ -1,46 +1,80 @@
 <template>
-  <h4 v-if="requests.length === 0" class="text-center">Заявок пока нет</h4>
-  <table v-else class="table">
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>ФИО</th>
-      <th>Телефон</th>
-      <th>Сумма</th>
-      <th>Статус</th>
-      <th>Действие</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="(r, idx) in requests" :key="r.id">
-      <td>{{ idx + 1 }}</td>
-      <td>{{ r.fio }}</td>
-      <td>{{ r.phone }}</td>
-      <td>{{ currency(r.amount) }}</td>
-      <td><AppStatus :type="r.status" /></td>
-      <td>
-        <router-link v-slot="{navigate}" custom :to="{name: 'Request', params: {id: r.id}}">
-          <button class="btn" @click="navigate">Открыть</button>
-        </router-link>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div>
+    <h4 v-if="requests.length === 0"
+        class="text-center">
+      Данных пока нет
+    </h4>
+    <table v-else class="table">
+      <thead>
+      <tr>
+        <th>Дата</th>
+        <th>Название</th>
+        <th>Количество</th>
+        <th>Расстояние</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="r in paginatedData" :key="r.id">
+        <td>{{new Date(r.date).toLocaleDateString()}}</td>
+        <td>{{ r.designation }}</td>
+        <td>{{ r.amount }}</td>
+        <td>{{ r.distance }}</td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <button class="btn warning"
+            :disabled="pageNumber === 0"
+            @click="prevPage">назад
+    </button>
+
+    <button class="btn sir"
+            :disabled="pageNumber >= pageCount -1"
+            @click="nextPage">вперед
+    </button>
+
+  </div>
 </template>
 
 <script>
-import {currency} from '../../utils/currency'
-import AppStatus from '../ui/AppStatus'
-
 export default {
-  props: ['requests'],
-  setup() {
-    return {currency}
+
+  data() {
+    return {
+      pageNumber: 0,
+      size:  11
+    };
+
   },
-  components: {AppStatus}
+  props: {
+    requests: {
+      type: Array,
+      required: true
+    },
+
+  },
+  methods: {
+    nextPage() {
+      this.pageNumber++;
+    },
+    prevPage() {
+      this.pageNumber--;
+    }
+  },
+
+  computed: {
+    pageCount() {
+      let l = this.requests.length,
+          s = this.size;
+      return Math.ceil(l / s);
+    },
+    paginatedData() {
+      const start = this.pageNumber * this.size,
+          end = start + this.size;
+      return this.requests.slice(start, end);
+    }
+  },
+
 }
 </script>
-
-<style scoped>
-
-</style>

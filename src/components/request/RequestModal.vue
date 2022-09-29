@@ -1,59 +1,41 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="form-control" :class="{invalid: fError}">
-      <label for="fio">ФИО</label>
-      <input type="text" id="fio" v-model="fio" @blur="fBlur">
-      <small v-if="fError">{{fError}}</small>
+
+    <div class="form-control" >
+      <label for="date">Дата</label>
+      <input type="date" id="date" v-model="$store.state.date">
     </div>
 
-    <div class="form-control" :class="{invalid: pError}">
-      <label for="phone">Телефон</label>
-      <input type="text" id="phone" v-model="phone" @blur="pBlur">
-      <small v-if="pError">{{pError}}</small>
+    <div class="form-control" >
+      <label for="designation">Название</label>
+      <input type="text" id="designation" v-model="$store.state.designation">
     </div>
 
-    <div class="form-control" :class="{invalid: aError}">
-      <label for="amount">Суммы</label>
-      <input type="number" id="amount" v-model.number="amount" @blur="aBlur">
-      <small v-if="aError">{{aError}}</small>
+    <div class="form-control" >
+      <label for="amount">Количество</label>
+      <input type="number" min = 0 id="amount" v-model="$store.state.amount">
     </div>
 
-    <div class="form-control">
-      <label for="status">Статус</label>
-      <select id="status" v-model="status">
-        <option value="done">Завершен</option>
-        <option value="cancelled">Отменен</option>
-        <option value="active">Активен</option>
-        <option value="pending">Выполняется</option>
-      </select>
+    <div class="form-control" >
+      <label for="distance">Расстояние</label>
+      <input type="number" min = 0 id="distance" v-model="$store.state.distance">
     </div>
 
-    <button class="btn primary" :disabled="isSubmitting">Создать</button>
+    <button class="btn primary" > Отправить</button>
   </form>
 </template>
 
 <script>
-
-import {useRequestForm} from '../../use/request-form'
-import {useStore} from 'vuex'
-
+import {mapMutations} from 'vuex'
 export default {
-  emits: ['created'],
-  setup(_, {emit}) {
-    const store = useStore()
 
-    const submit = async values => {
-      await store.dispatch('request/create', values)
-      emit('created')
-    }
+  methods: {
+    ...mapMutations(['createRequest', "submitRequestDB"]),
 
-    return {
-      ...useRequestForm(submit)
-    }
-  }
+    onSubmit() {
+      this.createRequest()
+      this.submitRequestDB()
+    },
+  },
 }
 </script>
-
-<style scoped>
-
-</style>
