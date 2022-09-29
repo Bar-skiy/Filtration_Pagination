@@ -1,19 +1,24 @@
-# vue-practice-app
+# Тестовое задание от компании WelbeX
+https://welbex-test-40cd7.web.app/
 
-## Project setup
-```
-npm install
-```
+1) Таблица должна содержать 4 колонки:
+- Дата
+- Название
+- Количество
+- Расстояние
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+2) Таблица должна иметь сортировку по всем полям кроме даты.
+Фильтрация должна быть в виде двух выпадающих списков и текстового поля:
+- Выбор колонки, по которой будет фильтрация
+- Выбор условия (равно, содержит, больше, меньше)
+- Поле для ввода значения для фильтрации
 
-### Compiles and minifies for production
-```
-npm run build
-```
+3) Таблица должна содержать пагинацию
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Вся таблица должна работать без перезагрузки страницы.
+
+# Реализация
+- Реализовано на Vue.js
+- Таблица с данными подключена к БД на firebase
+- Есть возможность добавить строки данных в модальном окне
+- Hosting на firebase  https://welbex-test-40cd7.web.app/
