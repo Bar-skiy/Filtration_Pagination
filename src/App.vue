@@ -6,7 +6,7 @@
 
 <script>
 import Home from "@/views/Home";
-import {mapActions, mapMutations} from "vuex";
+import {mapActions} from "vuex";
 export default {
   methods: {
     ...mapActions(['loadDataDB']),

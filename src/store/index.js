@@ -27,7 +27,7 @@ export default createStore({
     // комментарии: загрузка данных в BD
     async submitRequestDB(context) {
       await fetch(
-        "https://welbex-test-40cd7-default-rtdb.firebaseio.com//requests.json",
+        "https://welbex-test-40cd7-default-rtdb.firebaseio.com/requests.json",
         {
           method: "POST",
           headers: {
@@ -40,11 +40,27 @@ export default createStore({
     // комментарии: загрузка данных из BD при перезагрузке страниц
     async loadDataDB(context) {
       const result = await fetch(
-        "https://welbex-test-40cd7-default-rtdb.firebaseio.com//requests.json"
+        "https://welbex-test-40cd7-default-rtdb.firebaseio.com/requests.json"
       );
       const db = await result.json();
       // комментарии: пересборка массива данных для vuex
       context.state.requests = Object.keys(db).map((id) => ({...db[id], id}));
+    },
+    async deleteNote(context, payLoad) {
+      // комментарии: удаление задачи в BD
+      await fetch(
+        `https://welbex-test-40cd7-default-rtdb.firebaseio.com/requests/${payLoad.id}.json`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // комментарии: удаление задачи в vuex
+      context.state.requests = context.state.requests.filter(
+        (note) => note.id !== payLoad.id
+      );
     },
   },
   modules: {},

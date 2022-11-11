@@ -11,11 +11,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="r in paginatedData" :key="r.id">
+        <tr v-for="r in paginatedData" :key="r.i">
           <td>{{ new Date(r.date).toLocaleDateString() }}</td>
           <td>{{ r.designation }}</td>
           <td>{{ r.amount }}</td>
           <td>{{ r.distance }}</td>
+          <span class="alert-close" @click="delNote(r)">&times;</span>
         </tr>
       </tbody>
     </table>
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -61,11 +63,17 @@ export default {
     },
   },
   methods: {
+     ...mapActions(["deleteNote"]),
     nextPage() {
       this.pageNumber++;
     },
     prevPage() {
       this.pageNumber--;
+    },
+    delNote(r) {
+      this.deleteNote({
+        id: r.id,
+      });
     },
   },
   computed: {
