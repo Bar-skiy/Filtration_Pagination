@@ -10,8 +10,6 @@ export default createStore({
         distance: '',
         requests: [],
         requestDB: {},
-
-
     },
     mutations: {
         // комментарии: создание объекта из данных модального окна
@@ -24,30 +22,29 @@ export default createStore({
             }
             state.requests.push(state.requestDB)
         },
-
-        // комментарии: загрузка данных в BD
-        async submitRequestDB(state) {
-             await fetch('https://welbex-test-40cd7-default-rtdb.firebaseio.com//requests.json', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                     state.requestDB
-                )
-            })
-        },
+    },
+    actions: {
+         // комментарии: загрузка данных в BD
+         async submitRequestDB(context) {
+            await fetch('https://welbex-test-40cd7-default-rtdb.firebaseio.com//requests.json', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               body: JSON.stringify(
+                    context.state.requestDB
+               )
+           })
+       },
         // комментарии: загрузка данных из BD при перезагрузке страниц
-        async loadDataDB(state) {
+        async loadDataDB(context) {
             const result = await fetch('https://welbex-test-40cd7-default-rtdb.firebaseio.com//requests.json')
             const db = await result.json()
             // комментарии: пересборка массива данных для vuex
-            state.requests = Object.keys(db).map(id => ({...db[id], id}))
+            context.state.requests = Object.keys(db).map(id => ({ ...db[id], id }))
         },
     },
-    actions: {},
     modules: {},
-
     getters: {
         requests(state) {
             return state.requests

@@ -26,11 +26,12 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations, mapActions} from 'vuex'
 export default {
 
   methods: {
-    ...mapMutations(['createRequest', "submitRequestDB"]),
+    ...mapMutations(['createRequest']),
+    ...mapActions(["submitRequestDB"]),
 
     onSubmit() {
       this.createRequest()

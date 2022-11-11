@@ -6,10 +6,10 @@
 
 <script>
 import Home from "@/views/Home";
-import {mapMutations} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 export default {
   methods: {
-    ...mapMutations(['loadDataDB']),
+    ...mapActions(['loadDataDB']),
   },
   mounted() {
     this.loadDataDB()
