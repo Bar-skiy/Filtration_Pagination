@@ -10,6 +10,7 @@ export default createStore({
     distance: "",
     requests: [],
     requestDB: {},
+    loading: true,
   },
   mutations: {
     // комментарии: создание объекта из данных модального окна
@@ -39,12 +40,14 @@ export default createStore({
     },
     // комментарии: загрузка данных из BD при перезагрузке страниц
     async loadDataDB(context) {
+      context.state.loading = true;
       const result = await fetch(
         "https://welbex-test-40cd7-default-rtdb.firebaseio.com/requests.json"
       );
       const db = await result.json();
       // комментарии: пересборка массива данных для vuex
       context.state.requests = Object.keys(db).map((id) => ({...db[id], id}));
+      context.state.loading = false;
     },
     async deleteNote(context, payLoad) {
       // комментарии: удаление задачи в BD

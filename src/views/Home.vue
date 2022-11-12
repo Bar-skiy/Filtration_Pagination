@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <h1 class="card-title">Тестовое задание Vue
-      <button class="btn " @click="modal = true">Добавить данные в таблицу</button>
+      <button class="btn" @click="modal = true">Добавить данные в таблицу</button>
     </h1>
 
     <request-filter v-model="filter"></request-filter>

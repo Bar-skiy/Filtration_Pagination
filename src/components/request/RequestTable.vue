@@ -1,6 +1,7 @@
 <template>
   <div>
     <h4 v-if="requests.length === 0" class="text-center">Данных пока нет</h4>
+        <div class="loader" v-if="loading"></div>
     <table v-else class="table">
       <thead>
         <tr>
@@ -48,7 +49,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import {mapState ,mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -77,6 +78,7 @@ export default {
     },
   },
   computed: {
+        ...mapState(["loading"]),
     pageCount() {
       let l = this.requests.length,
         s = this.size;
